@@ -19,6 +19,8 @@ const Action = enum {
     reset,
 };
 
+const required_ms_hold = 1000;
+
 pub fn main() !void {
     rl.initWindow(
         window.resolution.width,
@@ -80,13 +82,11 @@ fn handleTap(event: anytype, scoreboard: *Scoreboard) void {
         .p2_dec => scoreboard.decreasePoints(.p2),
         .p2_inc => scoreboard.increasePoints(.p2),
 
-        .reset => scoreboard.reset(),
+        .reset => scoreboard.resetPoints(),
     }
 }
 
 fn handleHold(event: anytype, scoreboard: *Scoreboard) void {
-    const required_ms_hold = 1500;
-
     if (event.duration_ms < required_ms_hold) return;
 
     switch (event.action) {
@@ -96,7 +96,7 @@ fn handleHold(event: anytype, scoreboard: *Scoreboard) void {
         .p2_dec => scoreboard.decreaseSets(.p2),
         .p2_inc => scoreboard.increaseSets(.p2),
 
-        else => {},
+        .reset => scoreboard.reset(),
     }
 
     event.button.resetHoldDuration();

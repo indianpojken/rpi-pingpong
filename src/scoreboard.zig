@@ -63,6 +63,10 @@ pub const Scoreboard = struct {
         };
     }
 
+    pub fn resetPoints(self: *Scoreboard) void {
+        for (&self.scores) |*scr| scr.resetPoints();
+    }
+
     pub fn reset(self: *Scoreboard) void {
         for (&self.scores) |*scr| scr.reset();
     }
